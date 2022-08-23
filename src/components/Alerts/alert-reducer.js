@@ -1,14 +1,15 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Handle Input
  */
 export const HANDLE_ALERT_INPUT = 'alert/HANDLE_ALERT_INPUT';
-export function handleAlertInput(e) {
+export function handleAlertInput(name, value) {
     return {
         type: HANDLE_ALERT_INPUT,
-        field: e.target.name,
-        payload: e.target.value
+        field: name,
+        payload: value
     }
 }
 
@@ -88,9 +89,43 @@ export function alertReducer(state, action) {
     }
 }
 
+export function onAddAlert(alert, dispatchAlert) {
+    return (e) => {
+        if (!alert.id) alert.id = uuidv4();
+
+        dispatchAlert(addAlert(alert));
+        dispatchAlert(resetActiveAlert());
+        const timerId = setTimeout(() => {
+            dispatchAlert(deleteAlert(alert.id));
+            clearTimeout(timerId);
+        }, alert.timeLimit * 1000);
+        e.preventDefault();
+    }
+}
+
 /**
  * useAlertReducer hook
  */
 export function useAlertReducer() {
-    return React.useReducer(alertReducer, defaultAlertState);
+    const [alertState, alertDispatch] = React.useReducer(alertReducer, defaultAlertState);
+
+    const { activeAlert } = alertState;
+
+    return {
+        alertState,
+        alertDispatch,
+        dispatchAddAlert: () => {
+            if (!activeAlert.id) activeAlert.id = uuidv4();
+    
+            alertDispatch(addAlert(activeAlert));
+            alertDispatch(resetActiveAlert());
+            const timerId = setTimeout(() => {
+                alertDispatch(deleteAlert(activeAlert.id));
+                clearTimeout(timerId);
+            }, activeAlert.timeLimit * 1000);
+        },
+        dispatchDeleteAlert: (alertId) => alertDispatch(deleteAlert(alertId)),
+        dispatchHandleAlertInput: (name, value) => alertDispatch(handleAlertInput(name, value)),
+        dispatchResetActiveAlert: () => alertDispatch(resetActiveAlert()),
+    }
 }
