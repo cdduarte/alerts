@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Container from '@mui/material/Container';
 import AlertManager from '../Alerts/AlertManager';
 import AlertsExample from '../Alerts/AlertsExample';
