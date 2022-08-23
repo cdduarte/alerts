@@ -2,7 +2,8 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Handle Input
+ * handleAlertInput action accept the name and value of the alert input form field
+ * and adds the data to the activeAlert in state.
  */
 export const HANDLE_ALERT_INPUT = 'alert/HANDLE_ALERT_INPUT';
 export function handleAlertInput(name, value) {
@@ -86,20 +87,6 @@ export function alertReducer(state, action) {
             }
         default:
             return state;
-    }
-}
-
-export function onAddAlert(alert, dispatchAlert) {
-    return (e) => {
-        if (!alert.id) alert.id = uuidv4();
-
-        dispatchAlert(addAlert(alert));
-        dispatchAlert(resetActiveAlert());
-        const timerId = setTimeout(() => {
-            dispatchAlert(deleteAlert(alert.id));
-            clearTimeout(timerId);
-        }, alert.timeLimit * 1000);
-        e.preventDefault();
     }
 }
 
