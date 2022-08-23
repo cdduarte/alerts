@@ -5,7 +5,11 @@ import AlertsExample from '../Alerts/AlertsExample';
 import { useAlertReducer } from '../Alerts/alert-reducer';
 
 function App() {
-    const { alertState, dispatchAddAlert, dispatchHandleAlertInput } = useAlertReducer();
+    const {
+        alertState,
+        dispatchAddAlert,
+        dispatchHandleAlertInput,
+    } = useAlertReducer();
 
     return (
         <Container maxWidth="md">

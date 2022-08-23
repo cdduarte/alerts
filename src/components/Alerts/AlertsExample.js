@@ -10,7 +10,11 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-export default function AlertExample({ activeAlert, onSubmitAlert, onFormFieldChange }) {
+export default function AlertExample({
+    activeAlert,
+    onSubmitAlert,
+    onFormFieldChange
+}) {
     const onChange = (e) => onFormFieldChange(e.target.name, e.target.value);
 
     const onSubmit = (e) => {
