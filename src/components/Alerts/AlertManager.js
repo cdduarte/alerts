@@ -7,17 +7,29 @@ import { useTheme } from '@mui/material/styles';
 export default function AlertManager({ alerts }) {
     const theme = useTheme();
 
+    const wrapperStyles = {
+        position: 'static',
+        right: 0,
+        top: 0,
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            position: 'absolute',
+            width: '25%',
+        },
+    }
+
+    function onAlertClick(link) {
+        return () => {
+            const openWindow = window.open(link, '_blank', 'noopener,noreferrer');
+            if (openWindow) openWindow.opener = null;
+        };
+    }
+
     return (
-        <Box sx={{
-            position: 'static',
-            [theme.breakpoints.up('md')]: {
-                position: 'absolute',
-            },
-            top: 0,
-            right: 0}}>
+        <Box sx={wrapperStyles}>
             <Stack sx={{ width: '100%' }} spacing={2}>
                 {alerts.map((alert) => (
-                    <AlertComponent key={alert.id} alert={alert}/>
+                    <AlertComponent key={alert.id} alert={alert} onClick={onAlertClick(alert.link)}/>
                 ))}
             </Stack>
         </Box>
