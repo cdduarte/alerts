@@ -4,7 +4,8 @@ import AlertTitle from '@mui/material/AlertTitle';
 
 export default function AlertComponent({ alert, onClick }) {
     return (
-        <Alert 
+        <Alert
+            id={alert.id}
             severity={alert.alertType}
             {...(alert.link && { onClick })}
             sx={{ cursor: alert.link ? 'pointer' : 'default', zIndex: 1 }}>
